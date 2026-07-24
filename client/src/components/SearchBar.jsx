@@ -1,83 +1,88 @@
-function SearchBar(){
+function SearchBar({
+    location,
+    setLocation,
+    type,
+    setType,
+    price,
+    setPrice,
+    clearFilters
+}){
+
 
     return(
 
-        <section className="search-section">
-
-            <div className="search-box">
+        <div className="advanced-search">
 
 
-                <div className="input-group">
+            <input
 
-                    <label>
-                        Location
-                    </label>
+                type="text"
 
-                    <input 
-                        type="text"
-                        placeholder="Enter location"
-                    />
+                placeholder="Search location..."
 
-                </div>
+                value={location}
+
+                onChange={(e)=>setLocation(e.target.value)}
+
+            />
 
 
 
-                <div className="input-group">
+            <select
 
-                    <label>
-                        Property Type
-                    </label>
+                value={type}
 
-                    <select>
+                onChange={(e)=>setType(e.target.value)}
 
-                        <option>
-                            Select Type
-                        </option>
+            >
 
-                        <option>
-                            House
-                        </option>
+                <option value="">
+                    Property Type
+                </option>
 
-                        <option>
-                            Apartment
-                        </option>
+                <option value="House">
+                    House
+                </option>
 
-                        <option>
-                            Villa
-                        </option>
+                <option value="Apartment">
+                    Apartment
+                </option>
 
-                    </select>
-
-                </div>
+                <option value="Villa">
+                    Villa
+                </option>
 
 
-
-                <div className="input-group">
-
-                    <label>
-                        Price Range
-                    </label>
-
-                    <input 
-                        type="text"
-                        placeholder="Maximum price"
-                    />
-
-                </div>
+            </select>
 
 
 
-                <button className="search-btn">
-                    Search
-                </button>
+            <input
+
+                type="number"
+
+                placeholder="Max Price"
+
+                value={price}
+
+                onChange={(e)=>setPrice(e.target.value)}
+
+            />
 
 
-            </div>
 
-        </section>
+            <button
+                onClick={clearFilters}
+            >
+                Clear
+            </button>
+
+
+        </div>
 
     );
 
 }
+
 
 export default SearchBar;

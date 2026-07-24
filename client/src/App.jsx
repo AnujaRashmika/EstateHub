@@ -3,7 +3,8 @@ import Properties from "./pages/Properties";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PropertyDetails from "./pages/PropertyDetails";
-
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App(){
 
@@ -28,6 +29,13 @@ function App(){
         return <PropertyDetails />;
     }
 
+    if(path === "/about"){
+        return <About />;
+    }
+
+    if(path === "/contact"){
+        return <Contact />;
+    }
 
     return <Home />;
 

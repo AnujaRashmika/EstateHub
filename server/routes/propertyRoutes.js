@@ -6,7 +6,13 @@ const {
 
     getProperties,
 
-    addProperty
+    getProperty,
+
+    addProperty,
+
+    updateProperty,
+
+    deleteProperty
 
 } = require("../controllers/propertyController");
 
@@ -15,6 +21,12 @@ const {
 router.get("/",getProperties);
 
 router.post("/",addProperty);
+
+router.get("/:id", getProperty);
+
+router.put("/:id", updateProperty);
+
+router.delete("/:id", deleteProperty);
 
 
 

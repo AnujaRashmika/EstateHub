@@ -1,6 +1,6 @@
-function Hero(){
+function Hero() {
 
-    return(
+    return (
 
         <section className="hero">
 
@@ -16,7 +16,9 @@ function Hero(){
                 </p>
 
 
-                <button>
+                <button
+                    onClick={() => window.location.href = "/properties"}
+                >
                     Explore Properties
                 </button>
 

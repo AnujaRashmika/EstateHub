@@ -4,8 +4,11 @@ const Property = require("../models/Property");
 const getProperties = async (req, res) => {
     try {
         const properties = await Property.find();
+        console.log("Properties from MongoDB:", properties);
+
         res.json(properties);
     } catch (error) {
+        console.log("Error:", error);
         res.status(500).json({
             message: error.message,
         });

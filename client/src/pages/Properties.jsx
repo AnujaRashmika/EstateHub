@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PropertyCard from "../components/PropertyCard";
 import "../css/style.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 
 
@@ -14,62 +14,26 @@ function Properties() {
 
     const [price, setPrice] = useState("");
 
-    const properties = [
-
-        {
-            title: "Modern Luxury House",
-            location: "Colombo",
-            type: "House",
-            price: "Rs. 35,000,000",
-            image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-        },
+    const [properties,setProperties] = useState([]);
 
 
-        {
-            title: "Beach Side Villa",
-            location: "Galle",
-            type: "Villa",
-            price: "Rs. 28,000,000",
-            image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
-        },
+    useEffect(()=>{
+    
+        fetch("http://localhost:5000/api/properties")
+        .then((res)=>res.json())
+        .then((data)=>{
+    
+            setProperties(data);
+    
+        })
+        .catch((error)=>{
+    
+            console.log(error);
+    
+        });
+    
+    },[]);
 
-
-        {
-            title: "City Apartment",
-            location: "Kandy",
-            type: "Apartment",
-            price: "Rs. 15,000,000",
-            image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea"
-        },
-
-
-        {
-            title: "Family Home",
-            location: "Kurunegala",
-            type: "House",
-            price: "Rs. 20,000,000",
-            image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d"
-        },
-
-
-        {
-            title: "Luxury Villa",
-            location: "Negombo",
-            type: "Villa",
-            price: "Rs. 45,000,000",
-            image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
-        },
-
-
-        {
-            title: "Apartment Complex",
-            location: "Colombo 07",
-            type: "Apartment",
-            price: "Rs. 55,000,000",
-            image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154"
-        }
-
-    ];
 
     const filteredProperties = properties.filter((property) => {
 

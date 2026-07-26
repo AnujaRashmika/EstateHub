@@ -17,6 +17,7 @@ function Hero() {
 
 
                 <button
+                    className="explore-btn"
                     onClick={() => window.location.href = "/properties"}
                 >
                     Explore Properties

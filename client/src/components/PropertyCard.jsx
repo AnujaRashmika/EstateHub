@@ -50,7 +50,7 @@ function PropertyCard({property}){
 
 
                 <button
-                    onClick={() => window.location.href="/property-details"}
+                    onClick={() => window.location.href = `/property-details?id=${property._id || property.id}`}
                 >
                     View Details
                 </button>

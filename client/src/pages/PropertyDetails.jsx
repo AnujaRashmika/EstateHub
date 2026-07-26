@@ -179,7 +179,10 @@ function PropertyDetails() {
                         )}
 
                         <div className="button-group">
-                            <button className="contact-btn">
+                            <button
+                                className="contact-btn"
+                                onClick={() => window.location.href = "/contact"}
+                            >
                                 Contact Seller
                             </button>
 

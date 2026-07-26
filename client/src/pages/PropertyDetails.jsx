@@ -1,144 +1,231 @@
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../css/style.css";
 
 function PropertyDetails() {
-  return (
-    <>
-      <Navbar />
 
-      <section className="details-page">
-        <div className="details-container">
+    const [property, setProperty] = useState(null);
+    const [allProperties, setAllProperties] = useState([]);
+    const [currentId, setCurrentId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
-          {/* Left Side */}
-          <div className="details-left">
-            <img
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-              alt="Luxury House"
-            />
-          </div>
+    useEffect(() => {
 
-          {/* Right Side */}
-          <div className="details-right">
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
 
-            <span className="property-badge">
-              Featured Property
-            </span>
+        if (!id) {
+            setNotFound(true);
+            setLoading(false);
+            return;
+        }
 
-            <h1>Luxury Modern House</h1>
+        setCurrentId(id);
 
-            <p className="location">
-              📍 Colombo, Sri Lanka
-            </p>
+        fetch("http://localhost:5000/api/properties")
+            .then((res) => res.json())
+            .then((data) => {
 
-            <div className="rating">
-              ⭐⭐⭐⭐⭐
-              <span> 4.9 (124 Reviews)</span>
-            </div>
+                setAllProperties(data);
 
-            <h2 className="price">
-              Rs. 35,000,000
-            </h2>
+                const match = data.find(
+                    (item) => String(item._id || item.id) === String(id)
+                );
 
-            <div className="feature-grid">
+                if (match) {
+                    setProperty(match);
+                } else {
+                    setNotFound(true);
+                }
 
-              <div className="feature-box">
-                🛏
-                <h4>4</h4>
-                <p>Bedrooms</p>
-              </div>
+                setLoading(false);
 
-              <div className="feature-box">
-                🚿
-                <h4>3</h4>
-                <p>Bathrooms</p>
-              </div>
+            })
+            .catch((error) => {
+                console.log(error);
+                setNotFound(true);
+                setLoading(false);
+            });
 
-              <div className="feature-box">
-                🚗
-                <h4>2</h4>
-                <p>Parking</p>
-              </div>
+    }, []);
 
-              <div className="feature-box">
-                📐
-                <h4>2500</h4>
-                <p>Sq.ft</p>
-              </div>
 
-            </div>
+    const similarProperties = allProperties
+        .filter((item) => String(item._id || item.id) !== String(currentId))
+        .slice(0, 3);
 
-            <h3>Description</h3>
 
-            <p className="description">
-              This luxury modern home offers spacious living areas,
-              premium finishes, a beautiful landscaped garden,
-              private parking, and easy access to schools,
-              supermarkets and public transportation.
-            </p>
+    if (loading) {
+        return (
+            <>
+                <Navbar />
+                <section className="details-page">
+                    <p style={{ padding: "4rem 2rem", textAlign: "center" }}>
+                        Loading property...
+                    </p>
+                </section>
+                <Footer />
+            </>
+        );
+    }
 
-            <h3>Property Features</h3>
 
-            <ul className="property-list">
-              <li>✔ Swimming Pool</li>
-              <li>✔ Air Conditioning</li>
-              <li>✔ CCTV Security</li>
-              <li>✔ Balcony</li>
-              <li>✔ Garden</li>
-              <li>✔ Solar Power</li>
-            </ul>
+    if (notFound || !property) {
+        return (
+            <>
+                <Navbar />
+                <section className="details-page">
+                    <p style={{ padding: "4rem 2rem", textAlign: "center" }}>
+                        Property not found.
+                    </p>
+                    <div style={{ textAlign: "center", paddingBottom: "3rem" }}>
+                        <button
+                            className="back-btn"
+                            onClick={() => window.location.href = "/properties"}
+                        >
+                            Back to Properties
+                        </button>
+                    </div>
+                </section>
+                <Footer />
+            </>
+        );
+    }
 
-            <div className="button-group">
-              <button className="contact-btn">
-                Contact Seller
-              </button>
 
-              <button className="back-btn"
-                onClick={() => window.location.href="/properties"}>
-                Back to Properties
-              </button>
-            </div>
+    return (
+        <>
+            <Navbar />
 
-          </div>
+            <section className="details-page">
+                <div className="details-container">
 
-        </div>
-      </section>
+                    {/* Left Side */}
+                    <div className="details-left">
+                        <img
+                            src={property.image}
+                            alt={property.title}
+                        />
+                    </div>
 
-      {/* Similar Properties */}
+                    {/* Right Side */}
+                    <div className="details-right">
 
-      <section className="similar-properties">
+                        <span className="property-badge">
+                            {property.type || "Featured Property"}
+                        </span>
 
-        <h2>
-          Similar Properties
-        </h2>
+                        <h1>{property.title}</h1>
 
-        <div className="similar-grid">
+                        <p className="location">
+                            📍 {property.location}
+                        </p>
 
-          <div className="similar-card">
-            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c" />
-            <h4>Beach Villa</h4>
-            <p>Rs. 28,000,000</p>
-          </div>
+                        <div className="rating">
+                            ⭐⭐⭐⭐⭐
+                            <span> 4.9 (124 Reviews)</span>
+                        </div>
 
-          <div className="similar-card">
-            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea" />
-            <h4>City Apartment</h4>
-            <p>Rs. 18,000,000</p>
-          </div>
+                        <h2 className="price">
+                            Rs. {Number(property.price).toLocaleString()}
+                        </h2>
 
-          <div className="similar-card">
-            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d" />
-            <h4>Family House</h4>
-            <p>Rs. 22,000,000</p>
-          </div>
+                        <div className="feature-grid">
 
-        </div>
+                            <div className="feature-box">
+                                🛏
+                                <h4>{property.bedrooms ?? property.beds ?? 3}</h4>
+                                <p>Bedrooms</p>
+                            </div>
 
-      </section>
+                            <div className="feature-box">
+                                🚿
+                                <h4>{property.bathrooms ?? property.baths ?? 2}</h4>
+                                <p>Bathrooms</p>
+                            </div>
 
-      <Footer />
-    </>
-  );
+                            <div className="feature-box">
+                                🚗
+                                <h4>{property.parking ?? 2}</h4>
+                                <p>Parking</p>
+                            </div>
+
+                            <div className="feature-box">
+                                📐
+                                <h4>{property.area ?? property.sqft ?? 2000}</h4>
+                                <p>Sq.ft</p>
+                            </div>
+
+                        </div>
+
+                        <h3>Description</h3>
+
+                        <p className="description">
+                            {property.description || `This ${(property.type || "property").toLowerCase()} in ${property.location} offers a comfortable, well-maintained living space with easy access to schools, shopping and public transport — a great choice for families and professionals alike.`}
+                        </p>
+
+                        {property.features && property.features.length > 0 && (
+                            <>
+                                <h3>Property Features</h3>
+
+                                <ul className="property-list">
+                                    {property.features.map((feature, index) => (
+                                        <li key={index}>✔ {feature}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
+
+                        <div className="button-group">
+                            <button className="contact-btn">
+                                Contact Seller
+                            </button>
+
+                            <button
+                                className="back-btn"
+                                onClick={() => window.location.href = "/properties"}
+                            >
+                                Back to Properties
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            {/* Similar Properties */}
+            {similarProperties.length > 0 && (
+                <section className="similar-properties">
+
+                    <h2>
+                        Similar Properties
+                    </h2>
+
+                    <div className="similar-grid">
+
+                        {similarProperties.map((item) => (
+                            <a
+                                key={item._id || item.id}
+                                href={`/property-details?id=${item._id || item.id}`}
+                                className="similar-card"
+                            >
+                                <img src={item.image} alt={item.title} />
+                                <h4>{item.title}</h4>
+                                <p>Rs. {Number(item.price).toLocaleString()}</p>
+                            </a>
+                        ))}
+
+                    </div>
+
+                </section>
+            )}
+
+            <Footer />
+        </>
+    );
 }
 
 export default PropertyDetails;

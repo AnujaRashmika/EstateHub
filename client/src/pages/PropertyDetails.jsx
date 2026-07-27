@@ -24,7 +24,7 @@ function PropertyDetails() {
 
         setCurrentId(id);
 
-        fetch("https://estatehub-o14x.onrender.com/api/properties")
+        fetch(`${import.meta.env.VITE_API_URL}/api/properties`)
             .then((res) => res.json())
             .then((data) => {
 

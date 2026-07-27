@@ -24,7 +24,7 @@ function PropertyDetails() {
 
         setCurrentId(id);
 
-        fetch("http://localhost:5000/api/properties")
+        fetch("https://estatehub-o14x.onrender.com/api/properties")
             .then((res) => res.json())
             .then((data) => {
 

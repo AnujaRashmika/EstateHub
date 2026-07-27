@@ -2928,3 +2928,139 @@ body {
         transform: none !important;
     }
 }
+
+/* ==========================================================================
+   Mobile Responsiveness Fixes (added)
+   These rules only add/override responsive behaviour for small screens.
+   No layout classes were removed — this just fixes what breaks on phones.
+   ========================================================================== */
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ---- Navbar: keep links usable on mobile instead of vanishing ---- */
+@media (max-width: 900px) {
+
+    .navbar {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 14px;
+        padding: 18px 20px;
+    }
+
+    .nav-links {
+        display: flex;
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 14px 22px;
+    }
+
+    .nav-links li {
+        font-size: 15px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .login-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .properties-page {
+        padding: 40px 20px;
+    }
+
+    .footer-container {
+        padding: 40px 20px;
+    }
+
+    .details-left img {
+        height: 320px;
+    }
+
+    .details-right h1 {
+        font-size: 30px;
+    }
+
+    .price {
+        font-size: 28px;
+    }
+
+    .button-group {
+        width: 100%;
+    }
+
+    .contact-btn,
+    .back-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 15px 16px;
+    }
+
+    .nav-links {
+        gap: 12px 16px;
+    }
+
+    .nav-links li {
+        font-size: 14px;
+    }
+
+    .properties-page h1 {
+        font-size: 30px;
+    }
+
+    .about-hero h1,
+    .contact-hero h1 {
+        font-size: 32px;
+    }
+
+    .about-text h2,
+    .why-section h2 {
+        font-size: 26px;
+    }
+
+    .details-right h1 {
+        font-size: 26px;
+    }
+
+    .feature-grid {
+        gap: 10px;
+    }
+
+    .feature-box {
+        padding: 14px;
+    }
+
+    .auth-box,
+    .register-box {
+        padding: 28px 22px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .why-card,
+    .contact-form {
+        padding: 22px;
+    }
+}
